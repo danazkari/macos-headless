@@ -1,5 +1,6 @@
 { pkgs, config, ... }: {
   system.stateVersion = 4;
+  system.primaryUser = "dprado";
   nix.settings.experimental-features = "nix-command flakes";
 
   # User account
