@@ -27,6 +27,7 @@
         ({
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
+          home-manager.backupFileExtension = "before-nix-darwin";
           home-manager.users.dprado = import ./users/default/home.nix;
         })
       ];
