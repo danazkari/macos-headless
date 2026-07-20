@@ -26,7 +26,7 @@ fi
 # Install nix-darwin if not already available
 if ! command -v darwin-rebuild &> /dev/null; then
     echo "Installing nix-darwin..."
-    nix profile install nix-darwin
+    nix profile add nix-darwin
     # Source nix-darwin profile if available
     if [ -f /etc/nix-darwin/path-before-50/nixpkgs ]; then
         . /etc/nix-darwin/path-before-50/nixpkgs
