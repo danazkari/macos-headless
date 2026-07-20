@@ -75,6 +75,9 @@
     # Nix tools
     nixpkgs-fmt
     nil
+
+    # Virtualization
+    lima
   ];
 
   # Tmux with Dracula theme
