@@ -2,6 +2,7 @@
   system.stateVersion = 4;
   system.primaryUser = "dprado";
   nix.settings.experimental-features = "nix-command flakes";
+  ids.gids.nixbld = 350;
 
   # User account
   users.users.dprado = {
