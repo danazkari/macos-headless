@@ -45,7 +45,6 @@
 
     # Cloud & Kubernetes
     kubectl
-    helm
     kubernetes-helm
 
     # Container tools (Podman, not Docker)
