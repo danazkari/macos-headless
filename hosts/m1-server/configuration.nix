@@ -46,6 +46,14 @@
     /run/current-system/sw/bin/tailscale up --authkey="$TAILSCALE_AUTH_KEY" --ssh --hostname=m1-host
   '';
 
+  # Copy SOPS secrets to a real directory for VM mounting (Nix store symlinks can't be mounted by VZ)
+  system.activationScripts.sops-mountable = ''
+    mkdir -p /var/lib/sops-nix/mountable
+    cp /run/secrets/* /var/lib/sops-nix/mountable/ 2>/dev/null || true
+    chmod 755 /var/lib/sops-nix/mountable
+    chmod 444 /var/lib/sops-nix/mountable/*
+  '';
+
   # Homebrew
   homebrew = {
     enable = true;
