@@ -1,4 +1,4 @@
-{ config, pkgs, username ? "yourname", homeDir ? "/Users/yourname", lazyvim, ... }:
+{ config, pkgs, lib, username ? "yourname", homeDir ? "/Users/yourname", lazyvim, ... }:
 
 {
   home.username = username;

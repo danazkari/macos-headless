@@ -29,18 +29,15 @@
         ./hosts/m1-server/configuration.nix
         sops-nix.darwinModules.sops
         home-manager.darwinModules.home-manager
-        ({ config, ... }:
-        let
-          username = builtins.getEnv "USER";
-          homeDir = builtins.getEnv "HOME";
-        in
-        {
+        ({
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.${username} = import ./users/default/home.nix {
-            inherit username homeDir;
+          home-manager.extraSpecialArgs = {
+            username = builtins.getEnv "USER";
+            homeDir = builtins.getEnv "HOME";
             lazyvim = LazyVim;
           };
+          home-manager.users.${builtins.getEnv "USER"} = import ./users/default/home.nix;
         })
       ];
     };
