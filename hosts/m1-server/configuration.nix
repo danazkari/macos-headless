@@ -33,10 +33,17 @@
     mode = "0400";
   };
 
-  # Tailscale activation on boot (using OAuth client - never expires)
+  # Tailscale activation on boot (using pre-auth key)
   system.activationScripts.tailscale-auth = ''
-    TAILSCALE_OAUTH_SECRET=$(cat ${config.sops.secrets.tailscale_oauth_client_secret.path})
-    /run/current-system/sw/bin/tailscale up --authkey="$TAILSCALE_OAUTH_SECRET" --ssh --hostname=m1-host
+    # Wait for tailscaled to be ready
+    for i in $(seq 1 10); do
+      if /run/current-system/sw/bin/tailscale status &>/dev/null; then
+        break
+      fi
+      sleep 1
+    done
+    TAILSCALE_AUTH_KEY=$(cat /run/secrets/tailscale_oauth_client_secret)
+    /run/current-system/sw/bin/tailscale up --authkey="$TAILSCALE_AUTH_KEY" --ssh --hostname=m1-host
   '';
 
   # Homebrew
