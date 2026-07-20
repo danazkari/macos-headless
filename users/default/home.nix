@@ -142,7 +142,6 @@
         nix.enable = true;
         python.enable = true;
         typescript.enable = true;
-        json.enable = true;
         markdown.enable = true;
       };
     };
