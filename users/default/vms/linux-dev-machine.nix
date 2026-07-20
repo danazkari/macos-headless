@@ -15,21 +15,12 @@ let
     memory: "8GiB"
     disk: "100GiB"
     portForwards: []
-    mounts:
-      - location: "/run/secrets"
-        mountPoint: "/mnt/lima-secrets"
-        writable: false
     provision:
       - mode: system
         script: |
           #!/bin/bash
           apt-get update && apt-get install -y curl vim git
           curl -fsSL https://tailscale.com/install.sh | sh
-          
-          if ! tailscale status &> /dev/null; then
-            TS_AUTHKEY=$(cat /mnt/lima-secrets/tailscale_oauth_client_secret)
-            tailscale up --authkey=$TS_AUTHKEY --ssh --hostname=m1-linux-dev
-          fi
   '';
 
   wrapperScript = pkgs.writeShellScriptBin "lima-wrapper-${vmName}" ''
