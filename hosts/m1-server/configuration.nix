@@ -2,6 +2,12 @@
   system.stateVersion = 4;
   nix.settings.experimental-features = "nix-command flakes";
 
+  # User account
+  users.users.dprado = {
+    home = "/Users/dprado";
+    shell = pkgs.zsh;
+  };
+
   # Hardware / Power Config
   # TODO: Configure power settings once nix-darwin power module is stable
   # See: https://github.com/nix-darwin/nix-darwin/pull/1767
