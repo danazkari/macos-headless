@@ -31,7 +31,6 @@
 
     # Node.js
     nodejs
-    nodePackages.npm
     yarn
     pnpm
 
@@ -105,7 +104,7 @@
   # Zsh with Oh-My-Zsh
   programs.zsh = {
     enable = true;
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
     enableCompletion = true;
     oh-my-zsh = {
       enable = true;
@@ -142,7 +141,7 @@
   # Git
   programs.git = {
     enable = true;
-    extraConfig = {
+    settings = {
       init.defaultBranch = "main";
       pull.rebase = true;
       push.autoSetupRemote = true;
