@@ -15,13 +15,9 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    LazyVim = {
-      url = "github:matadaniel/LazyVim-module";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = inputs@{ self, darwin, nixpkgs, home-manager, sops-nix, LazyVim, ... }: {
+  outputs = inputs@{ self, darwin, nixpkgs, home-manager, sops-nix, ... }: {
     darwinConfigurations."m1-server" = darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [
@@ -31,9 +27,6 @@
         ({
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = {
-            lazyvim = LazyVim;
-          };
           home-manager.users.dprado = import ./users/default/home.nix;
         })
       ];

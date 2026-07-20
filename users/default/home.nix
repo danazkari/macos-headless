@@ -1,4 +1,4 @@
-{ config, pkgs, lib, lazyvim, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   home.username = "dprado";
@@ -6,7 +6,6 @@
   home.stateVersion = "24.11";
 
   imports = [
-    lazyvim.homeManagerModules.default
     ./vms/linux-dev-machine.nix
   ];
 
@@ -126,25 +125,16 @@
     };
   };
 
-  # LazyVim (Neovim distribution)
+  # Neovim (basic setup — add LazyVim or your preferred config later)
   programs.neovim = {
     enable = true;
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;
-  };
-
-  programs.lazyvim = {
-    enable = true;
-    extras = {
-      lang = {
-        go.enable = true;
-        nix.enable = true;
-        python.enable = true;
-        typescript.enable = true;
-        markdown.enable = true;
-      };
-    };
+    plugins = with pkgs.vimPlugins; [
+      vim-nix
+      telescope-nvim
+    ];
   };
 
   # Git
