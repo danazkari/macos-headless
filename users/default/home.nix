@@ -136,15 +136,17 @@
 
   programs.lazyvim = {
     enable = true;
-    extras = [
-      "lazyvim.plugins.extras.lang.rust"
-      "lazyvim.plugins.extras.lang.go"
-      "lazyvim.plugins.extras.lang.lua"
-      "lazyvim.plugins.extras.lang.nodejs"
-      "lazyvim.plugins.extras.lang.python"
-      "lazyvim.plugins.extras.lang.perl"
-      "lazyvim.plugins.extras.lang.kubernetes"
-    ];
+    extras = {
+      lang = {
+        rust.enable = true;
+        go.enable = true;
+        lua.enable = true;
+        nodejs.enable = true;
+        python.enable = true;
+        perl.enable = true;
+        kubernetes.enable = true;
+      };
+    };
   };
 
   # Git
