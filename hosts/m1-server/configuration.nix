@@ -3,12 +3,8 @@
   nix.settings.experimental-features = "nix-command flakes";
 
   # Hardware / Power Config
-  system.defaults.pmset = {
-    sleep = 0;
-    displaysleep = 0;
-    powernap = 1;
-    autorestart = 1; # Critical to boot headless after power failure
-  };
+  # TODO: Configure power settings once nix-darwin power module is stable
+  # See: https://github.com/nix-darwin/nix-darwin/pull/1767
 
   # Host Tailscale
   services.tailscale.enable = true;
