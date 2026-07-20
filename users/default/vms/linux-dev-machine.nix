@@ -33,6 +33,14 @@ let
 
   wrapperScript = pkgs.writeShellScriptBin "lima-wrapper-${vmName}" ''
     export PATH=${pkgs.lima}/bin:$PATH
+
+    # Copy SOPS secrets to a real directory so VZ can mount them
+    # (Nix store symlinks can't be mounted by VZ)
+    sudo mkdir -p /var/lib/sops-nix/mountable
+    sudo cp /run/secrets/* /var/lib/sops-nix/mountable/ 2>/dev/null || true
+    sudo chmod 755 /var/lib/sops-nix/mountable
+    sudo chmod 444 /var/lib/sops-nix/mountable/*
+
     if limactl list -q | grep -q "^${vmName}$"; then
       exec limactl start --foreground ${vmName}
     else
