@@ -22,7 +22,7 @@
     };
   };
 
-  outputs = inputs@{ self, darwin, nixpkgs, home-manager, sops-nix, LazyVim }: {
+  outputs = inputs@{ self, darwin, nixpkgs, home-manager, sops-nix, LazyVim, ... }: {
     darwinConfigurations."m1-server" = darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [
@@ -30,11 +30,18 @@
         sops-nix.darwinModules.sops
         home-manager.darwinModules.home-manager
         LazyVim.homeManagerModules.default
+        ({ config, ... }:
+        let
+          username = builtins.getEnv "USER";
+          homeDir = builtins.getEnv "HOME";
+        in
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.dprado = import ./users/dprado/home.nix;
-        }
+          home-manager.users.${username} = import ./users/default/home.nix {
+            inherit username homeDir;
+          };
+        })
       ];
     };
   };

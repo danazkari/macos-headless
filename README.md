@@ -75,7 +75,7 @@ This project transforms an Apple Silicon MacBook into a zero-maintenance, headle
 │       ├── configuration.nix          # nix-darwin system config
 │       └── battery-daemon.nix         # Battery hysteresis daemon
 └── users/
-    └── dprado/
+    └── default/
         ├── home.nix                   # Home Manager user config
         └── vms/
             └── linux-dev-machine.nix # Lima VM definition
@@ -88,17 +88,33 @@ This project transforms an Apple Silicon MacBook into a zero-maintenance, headle
 - Internet connection
 - Another machine on the same network (for initial SSH)
 
+## Username Configuration
+
+This repository uses a configurable username that automatically detects your system username. The username is derived from the `$USER` environment variable at build time, so no manual configuration is needed.
+
+If you need to override the username (e.g., for a different user account), you can pass it as a flake argument:
+
+```bash
+# Build with a specific username
+darwin-rebuild switch --flake .#m1-server --override-input username=yourname
+
+# Or set it in a local configuration
+echo 'username = "yourname";' > username.nix
+```
+
+The home directory is automatically set to `/Users/${USER}` based on your system environment.
+
 ## Complete Setup Guide
 
 ### Phase 1: Initial Mac Setup (Manual)
 
 1. **Complete macOS Setup Assistant**
-   - Create your user account (e.g., `dprado`)
+   - Create your user account (e.g., `yourname`)
    - Skip Apple ID if desired (can add later)
 
 2. **Enable Remote Login (SSH)**
    - System Settings → General → Sharing → Remote Login → ON
-   - Note the SSH command shown (e.g., `ssh dprado@192.168.x.x`)
+   - Note the SSH command shown (e.g., `ssh yourname@192.168.x.x`)
 
 3. **Set Up SSH Key Authentication** (recommended over passwords)
 
@@ -109,19 +125,19 @@ This project transforms an Apple Silicon MacBook into a zero-maintenance, headle
    ssh-keygen -t ed25519 -C "your-email@example.com"
 
    # Copy your public key to the Mac:
-   ssh-copy-id dprado@<mac-ip>
+   ssh-copy-id yourname@<mac-ip>
    ```
 
    Enter your password when prompted. After this, you can SSH without passwords:
 
    ```bash
-   ssh dprado@<mac-ip>
+   ssh yourname@<mac-ip>
    ```
 
    **Verify it works** (should connect without asking for password):
 
    ```bash
-   ssh dprado@<mac-ip> "echo 'SSH key auth works!'"
+   ssh yourname@<mac-ip> "echo 'SSH key auth works!'"
    ```
 
 4. **Disable Sleep/Auto-Lock**
@@ -142,7 +158,7 @@ This project transforms an Apple Silicon MacBook into a zero-maintenance, headle
 From another machine, SSH into your Mac:
 
 ```bash
-ssh dprado@<mac-ip>
+ssh yourname@<mac-ip>
 ```
 
 Install Nix (multi-user, recommended for macOS):
@@ -612,7 +628,7 @@ This section covers creating new Lima VMs declaratively with Nix.
 
 #### Step 1: Create the VM Module
 
-Create a new file at `users/dprado/vms/my-vm.nix`:
+Create a new file at `users/default/vms/my-vm.nix`:
 
 ```nix
 { config, pkgs, ... }:
@@ -673,7 +689,7 @@ in {
 
 #### Step 2: Import the Module
 
-Edit `users/dprado/home.nix` and add to the imports:
+Edit `users/default/home.nix` and add to the imports:
 
 ```nix
 imports = [
@@ -716,7 +732,7 @@ mounts:
   - location: "/run/secrets"           # Host path
     mountPoint: "/mnt/lima-secrets"    # Guest path
     writable: false                    # Read-only
-  - location: "/Users/dprado/projects"
+  - location: "/Users/<your-username>/projects"
     mountPoint: "/home/ubuntu/projects"
     writable: true                     # Read-write
 ```
@@ -810,8 +826,8 @@ To customize the Tailscale hostname, change `--hostname=my-vm-node` in the provi
 
 #### Removing a VM
 
-1. Delete the VM module file (`users/dprado/vms/my-vm.nix`)
-2. Remove the import from `users/dprado/home.nix`
+1. Delete the VM module file (`users/default/vms/my-vm.nix`)
+2. Remove the import from `users/default/home.nix`
 3. Rebuild: `darwin-rebuild switch --flake .#m1-server`
 4. The LaunchAgent will be removed, but the VM disk may persist. Clean up manually:
 
@@ -874,7 +890,7 @@ limactl list
 
 ### Adding New Packages
 
-Edit `users/dprado/home.nix` and add to `home.packages`:
+Edit `users/default/home.nix` and add to `home.packages`:
 
 ```nix
 home.packages = with pkgs; [
@@ -887,7 +903,7 @@ Then rebuild.
 
 ### Changing Tmux Theme
 
-Edit the Dracula config in `users/dprado/home.nix`:
+Edit the Dracula config in `users/default/home.nix`:
 
 ```nix
 plugin = dracula;
@@ -903,7 +919,7 @@ extraConfig = ''
 
 ### Adding LazyVim Extras
 
-Edit `users/dprado/home.nix` and add to `programs.lazyvim.extras`:
+Edit `users/default/home.nix` and add to `programs.lazyvim.extras`:
 
 ```nix
 extras = {
