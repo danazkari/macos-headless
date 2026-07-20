@@ -25,7 +25,6 @@
     perl
 
     # Lua
-    luajit
     lua5_4
     stylua
 
