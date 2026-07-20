@@ -138,12 +138,12 @@
     enable = true;
     extras = {
       lang = {
-        rust.enable = true;
         go.enable = true;
-        lua.enable = true;
-        nodejs.enable = true;
+        nix.enable = true;
         python.enable = true;
-        perl.enable = true;
+        typescript.enable = true;
+        json.enable = true;
+        markdown.enable = true;
       };
     };
   };
