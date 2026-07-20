@@ -4,6 +4,7 @@
   home.username = "dprado";
   home.homeDirectory = "/Users/dprado";
   home.stateVersion = "24.11";
+  home.backupFileExtension = "before-nix-darwin";
 
   imports = [
     ./vms/linux-dev-machine.nix
