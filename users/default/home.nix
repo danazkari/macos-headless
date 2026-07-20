@@ -1,8 +1,8 @@
-{ config, pkgs, lib, username ? "yourname", homeDir ? "/Users/yourname", lazyvim, ... }:
+{ config, pkgs, lib, lazyvim, ... }:
 
 {
-  home.username = username;
-  home.homeDirectory = homeDir;
+  home.username = "dprado";
+  home.homeDirectory = "/Users/dprado";
   home.stateVersion = "24.11";
 
   imports = [
@@ -144,7 +144,6 @@
         nodejs.enable = true;
         python.enable = true;
         perl.enable = true;
-        kubernetes.enable = true;
       };
     };
   };

@@ -18,7 +18,6 @@
     LazyVim = {
       url = "github:matadaniel/LazyVim-module";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
     };
   };
 
@@ -33,11 +32,9 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.extraSpecialArgs = {
-            username = builtins.getEnv "USER";
-            homeDir = builtins.getEnv "HOME";
             lazyvim = LazyVim;
           };
-          home-manager.users.${builtins.getEnv "USER"} = import ./users/default/home.nix;
+          home-manager.users.dprado = import ./users/default/home.nix;
         })
       ];
     };
