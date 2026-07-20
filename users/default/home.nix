@@ -1,4 +1,4 @@
-{ config, pkgs, username ? "yourname", homeDir ? "/Users/yourname", ... }:
+{ config, pkgs, username ? "yourname", homeDir ? "/Users/yourname", lazyvim, ... }:
 
 {
   home.username = username;
@@ -6,6 +6,7 @@
   home.stateVersion = "24.11";
 
   imports = [
+    lazyvim.homeManagerModules.default
     ./vms/linux-dev-machine.nix
   ];
 

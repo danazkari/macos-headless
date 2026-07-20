@@ -29,7 +29,6 @@
         ./hosts/m1-server/configuration.nix
         sops-nix.darwinModules.sops
         home-manager.darwinModules.home-manager
-        LazyVim.homeManagerModules.default
         ({ config, ... }:
         let
           username = builtins.getEnv "USER";
@@ -40,6 +39,7 @@
           home-manager.useUserPackages = true;
           home-manager.users.${username} = import ./users/default/home.nix {
             inherit username homeDir;
+            lazyvim = LazyVim;
           };
         })
       ];
