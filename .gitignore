@@ -1,0 +1,20 @@
+# Nix
+result
+result-*
+
+# Lima
+.lima/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Secrets (unencrypted)
+secrets/*.yaml
+!secrets/secrets.yaml
