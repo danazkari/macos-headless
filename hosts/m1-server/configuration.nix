@@ -18,6 +18,7 @@
   services.tailscale.enable = true;
 
   # SOPS secrets for host
+  sops.age.keyFile = "/var/lib/sops-nix/key.txt";
   sops.secrets.tailscale_oauth_client_id = {
     sopsFile = ../../secrets/secrets.yaml;
     owner = "root";
